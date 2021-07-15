@@ -4,3 +4,8 @@ class Match:
         self.player_two=player_two
         self.player_one_result=player_one_result
         self.player_two_result=player_two_result
+
+        
+
+    def __str__(self):
+        pass    

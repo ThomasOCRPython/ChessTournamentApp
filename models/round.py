@@ -4,4 +4,9 @@ class Round:
         self.round_name=round_name
         self.date_time_start=date_time_start
         self.date_time_end=date_time_end
-        
+
+    def run_match():
+        #génére des paires de joueurs et lance les matchs    
+        pass
+    def __str__(self):
+        pass        

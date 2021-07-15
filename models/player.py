@@ -6,4 +6,5 @@ class Player:
         self.sex=sex
         self.ranking=ranking
 
-
+    def __str__(self):
+        pass    

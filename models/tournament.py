@@ -1,5 +1,5 @@
 class Tournament:
-    def __init__(self, name, place, date, nb_of_rounds, rounds, players, time_control,description, round_instance_list):
+    def __init__(self, name, place, date, rounds, players, time_control,description, round_instance_list, nb_of_rounds=4):
         self.name=name
         self.place=place
         self.date=date
@@ -9,8 +9,13 @@ class Tournament:
         self.time_control=time_control
         self.description=description
         self.round_instance_list=round_instance_list
+          
+    def run_rounds():
+        pass
+        
 
-
+    def __str__(self):
+        pass
 
 
     
