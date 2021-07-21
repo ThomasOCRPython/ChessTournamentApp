@@ -1,9 +1,9 @@
 class Match:
-    def __init__(self, player_one, player_two, player_one_result, player_two_result):
+    def __init__(self, player_one, player_two, score_player_one=0, score_player_two=0):
         self.player_one=player_one
         self.player_two=player_two
-        self.player_one_result=player_one_result
-        self.player_two_result=player_two_result
+        self.score_player_one=score_player_one
+        self.score_player_two=score_player_two
 
         
 

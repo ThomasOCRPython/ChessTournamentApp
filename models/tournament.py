@@ -4,14 +4,18 @@ class Tournament:
         self.place=place
         self.date=date
         self.nb_of_rounds=nb_of_rounds
-        self.rounds=rounds
-        self.players=players
+        self.rounds=[]#rounds
+        self.players=[]#players
         self.time_control=time_control
         self.description=description
         self.round_instance_list=round_instance_list
           
-    def run_rounds():
-        pass
+    
+    def add_round(self,round):
+        self.round.append(round)
+    def add_player(self,player):
+        self.players.append(player)    
+
         
 
     def __str__(self):
