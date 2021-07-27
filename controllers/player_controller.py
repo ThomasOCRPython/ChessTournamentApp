@@ -1,8 +1,8 @@
 
-from models import tournament as t
+from models.tournament import Tournament
 from controllers import constantPlayer as const
 from views import tournament_view as view
-from models import player as p
+from models.player import Player
 from datetime import datetime
 
 
@@ -11,7 +11,7 @@ from datetime import datetime
 class PlayerController:
 
 
-    def create_player(self):
+    def create_player(self, tournament_controller):
         for i in range(const.NUM_OF_PLAYER):
             player_last_name=self.__get_last_name("Enter player last name : ")
             player_name=self.__get_name("Enter player first name : ")
@@ -19,8 +19,8 @@ class PlayerController:
             player_sex=self.__get_sex("Enter sex player 'M' for male, 'F'for female 'N'for none: ")
             player_elo=self.__get_elo("Enter player Elo : ")
             player_score=self.__get_score("Enter score player : ")
-            player = p.Player(player_last_name,player_name,player_date_of_bird,player_sex, player_elo)
-            t.Tournament.add_player(player)
+            player =Player(player_last_name,player_name,player_date_of_bird,player_sex, player_elo)
+            tournament_controller.add_player(player)
 
     @staticmethod
     def __get_name(message):
@@ -42,24 +42,26 @@ class PlayerController:
         return last_name    
     @staticmethod
     def __get_date_of_bird(message):
-        get_date_of_bird= view.get_date(message)
+        get_date_of_bird= view.get_input(message)
         while True:
-            if datetime.strptime(get_date_of_bird, '%m/%d/%Y %I:%M %p')==False:
-                get_date_of_bird=view.get_date(f"Error: {message}")
-            else:
+            try:
+
+                datetime.strptime(get_date_of_bird, '%d/%m/%Y')
                 break
+            except ValueError:
+                get_date_of_bird=view.get_input(f"Error: {message}")
         return get_date_of_bird       
     @staticmethod
     def __get_sex(message):
-        sex= view.get_sex(message)
+        sex= view.get_input(message)
         while sex not in ("M", "F", "N"):
-            sex=view.get_sex(f"Error: {message}")
+            sex=view.get_input(f"Error: {message}")
         return sex 
     @staticmethod
     def __get_score(message):
-        score= view.get_score(message)
+        score= view.get_input(message)
         while not score.isnumeric():
-            score=view.get_score(f"Error: {message}")
+            score=view.get_input(f"Error: {message}")
         return int(score)  
     
     

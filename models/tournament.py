@@ -1,6 +1,6 @@
 
 class Tournament:
-    def __init__(self, name, place, date, time_control,description, round_instance_list, nb_of_rounds=4):
+    def __init__(self, name, place, date, time_control, nb_of_rounds=4):
         self.name=name
         self.place=place
         self.date=date
@@ -8,8 +8,8 @@ class Tournament:
         self.rounds=[]#rounds
         self.players=[]#players
         self.time_control=time_control
-        self.description=description
-        self.round_instance_list=round_instance_list
+        # self.description=description
+        # self.round_instance_list=round_instance_list
           
     
     def add_round(self,round):

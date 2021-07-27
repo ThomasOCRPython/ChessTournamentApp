@@ -1,8 +1,9 @@
-from datetime import datetime, time
+from datetime import datetime
+from controllers import player_controller
+from models import player
 from models.tournament import Tournament
-# from models.player import Player
 from views import tournament_view as view
-from controllers.player_controller import create_player
+from controllers.player_controller import PlayerController
 
 NUM_OF_PLAYER=8
 class TournamentController:
@@ -16,9 +17,10 @@ class TournamentController:
         tournament_place=self.__get_place("Enter tournament place: ")
         tournament_date=self.__get_date("Enter the date of the tournament : ")
         tournament_get_time_control=self.__get_time_control("Enter '1' for 'bullet', '2' for 'blits', '3' for 'coup rapide' :")
-        tournament_description=self.__get_description("Enter description")
-        self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control,tournament_description)
-        create_player()
+        # tournament_description=self.__get_description("Enter description")
+        self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
+        self.player_controller=PlayerController()
+        self.player_controller.create_player(self.tournament)
        
     def __first_round(self):
         pass
@@ -29,30 +31,32 @@ class TournamentController:
 
     @staticmethod
     def __get_name(message):
-        name=view.get_name(message)
+        name=view.get_input(message)
         while not name.isalpha():
-            name=view.get_name(f"Error: {message}")
+            name=view.get_input(f"Error: {message}")
         return name 
     @staticmethod
     def __get_place(message):
-        place=view.get_place(message)
+        place=view.get_input(message)
         while not place.isalpha():
-            place=view.get_place(f"Error: {message}")
+            place=view.get_input(f"Error: {message}")
         return place 
     @staticmethod
     def __get_date(message):
-        get_date= view.get_date(message)
+        get_date= view.get_input(message)
         while True:
-            if datetime.strptime(get_date, '%m/%d/%Y %I:%M %p')==False:
-                get_date=view.get_date(f"Error: {message}")
-            else:
+            try:
+                datetime.strptime(get_date, '%d/%m/%Y')
                 break
+            except ValueError :
+                get_date=view.get_input(f"Error: {message}")
+
         return get_date
     @staticmethod
     def __get_time_control(message):
-        time_control=view.get_time_control(message)
+        time_control=view.get_input(message)
         while time_control not in ("1", "2", "3"):
-            place=view.get_time_control(f"Error: {message}")
+            time_control=view.get_input(f"Error: {message}")
         if time_control==1:
             time_control="bullet"
         elif time_control==2:
@@ -61,9 +65,7 @@ class TournamentController:
         return time_control
     @staticmethod
     def __get_description(message):
-        description=view.get_description(message)
+        description=view.get_input(message)
         return description
 
-if __name__=="__main__":
-    tournamentController=TournamentController()
-    tournamentController.create_new_tournament()
+
