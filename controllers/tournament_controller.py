@@ -21,10 +21,10 @@ class TournamentController:
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
+        self.__first_round()
        
-    def __first_round(self):
-        pass
-    #round = Round("1")
+    def __first_round(self):   
+        round = Round("1")
     #for ...
         #round.add_match(match)
     #self.tournament.add_round(round)
@@ -67,5 +67,18 @@ class TournamentController:
     def __get_description(message):
         description=view.get_input(message)
         return description
+
+    def __first_round(self):
+        round = Round("1")
+        """for ...
+            round.add_match(match)"""
+        
+        self.tournament.add_round(round)
+        
+        pass
+    
+    def __run_other_round(self, name):
+        round = Round(name)
+        pass
 
 
