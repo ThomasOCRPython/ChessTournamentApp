@@ -20,7 +20,8 @@ class Tournament:
         
 
     def __str__(self):
-        pass
+        output = f"\n players : {self.players}  "
+        return output
 
 
     

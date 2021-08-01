@@ -1,34 +1,41 @@
+
 from datetime import datetime
 from controllers import player_controller
-from models import player
+from models import tournament
+from models.round import Round 
 from models.tournament import Tournament
+from models.player import Player
 from views import tournament_view as view
 from controllers.player_controller import PlayerController
 
 NUM_OF_PLAYER=8
 class TournamentController:
     
+    
 
     def __init__(self):
         self.tournament=None
+    
 
     def create_new_tournament(self):
-        tournament_name=self.__get_name("Enter tournament name: ")
-        tournament_place=self.__get_place("Enter tournament place: ")
-        tournament_date=self.__get_date("Enter the date of the tournament : ")
-        tournament_get_time_control=self.__get_time_control("Enter '1' for 'bullet', '2' for 'blits', '3' for 'coup rapide' :")
+        tournament_name="Pegasus"#self.__get_name("Enter tournament name: ")
+        tournament_place="kotte"#self.__get_place("Enter tournament place: ")
+        tournament_date="30/07/2021"#self.__get_date("Enter the date of the tournament : ")
+        tournament_get_time_control="1"#self.__get_time_control("Enter '1' for 'bullet', '2' for 'blits', '3' for 'coup rapide' :")
         # tournament_description=self.__get_description("Enter description")
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
-        self.__first_round()
+        self.__list_of_match()
+        
+        #self.__first_round()
        
-    def __first_round(self):   
-        round = Round("1")
-    #for ...
-        #round.add_match(match)
-    #self.tournament.add_round(round)
-
+    # def __first_round(self):   
+    #     Round.round_name = Round("1")
+    # #for ...
+    #     #round.add_match(match)
+    # #self.tournament.add_round(round)
+    
     @staticmethod
     def __get_name(message):
         name=view.get_input(message)
@@ -68,17 +75,20 @@ class TournamentController:
         description=view.get_input(message)
         return description
 
-    def __first_round(self):
-        round = Round("1")
-        """for ...
-            round.add_match(match)"""
+    # def __first_round(self):
+    #     round = Round("1")
+    #     """for ...
+    #         round.add_match(match)"""
         
-        self.tournament.add_round(round)
+    #     self.tournament.add_round(round)
         
         pass
-    
-    def __run_other_round(self, name):
-        round = Round(name)
-        pass
+    def __list_of_match(self):
+        self.tournament.players.sort(key = lambda x: x.elo)
+        print (self.tournament.players)
+
+    # def __run_other_round(self, name):
+    #     round = Round(name)
+    #     pass
 
 
