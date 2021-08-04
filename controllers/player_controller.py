@@ -67,7 +67,5 @@ class PlayerController:
         while not score.isnumeric():
             score=view.get_input(f"Error: {message}")
         return int(score)  
-    def __str__(self):
-        output = f"\n players : {self.players}  "
-        return output
+    
     

@@ -13,15 +13,15 @@ class Tournament:
           
     
     def add_round(self,round):
-        self.round.append(round)
+        self.rounds.append(round)
     def add_player(self,player):
         self.players.append(player)    
 
-        
-
     def __str__(self):
-        output = f"\n players : {self.players}  "
-        return output
+        return f" name : {self.name} \n place : {self.place} \n date : {self.date} \n nb_of_rounds : {self.nb_of_rounds} \n players : {self.players} \n time_control : {self.time_control}"
+            
+
+    
 
 
     

@@ -8,4 +8,5 @@ class Player:
         self.score=score
 
     def __str__(self):
-        pass    
+        return f"last_name : {self.last_name} \n name : {self.name} \n date_of_bird : {self.date_of_bird} \n sex : {self.sex} \n elo : {self.elo} \n score : {self.score}"
+             

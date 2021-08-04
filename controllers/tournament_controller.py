@@ -1,14 +1,17 @@
 
+from controllers.roundController import RoundController
 from datetime import datetime
-from controllers import player_controller
+from controllers import matchController, player_controller
 from models import tournament
+from models import player
 from models.round import Round 
 from models.tournament import Tournament
 from models.player import Player
 from views import tournament_view as view
 from controllers.player_controller import PlayerController
+from controllers.constantPlayer import NUM_OF_PLAYER
 
-NUM_OF_PLAYER=8
+#NUM_OF_PLAYER=8
 class TournamentController:
     
     
@@ -26,7 +29,11 @@ class TournamentController:
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
-        self.__list_of_match()
+        list_of_match=self.__list_of_match()
+        self.__create_round_one(self.tournament,list_of_match)
+        
+        
+        #self.__list_of_match()
         
         #self.__first_round()
        
@@ -75,20 +82,29 @@ class TournamentController:
         description=view.get_input(message)
         return description
 
-    # def __first_round(self):
-    #     round = Round("1")
-    #     """for ...
-    #         round.add_match(match)"""
-        
-    #     self.tournament.add_round(round)
-        
-        pass
+    def __create_round_one(self,tournament,list_of_match):
+        round=RoundController()
+        round.create_round("1",tournament)
+        for match in list_of_match:
+            match=matchController()
+            match.create_match(list_of_match,round)
+
+
+
+       
     def __list_of_match(self):
         self.tournament.players.sort(key = lambda x: x.elo)
-        print (self.tournament.players)
+        affichage=self.tournament.players
+        print (len(affichage))
+        for i in range(int(len(affichage) / 2)):
+            return affichage[i], affichage[i+int(len(affichage) / 2)]
+        
+        
 
     # def __run_other_round(self, name):
     #     round = Round(name)
     #     pass
-
-
+    
+    def __str__(self):
+            return f" name : {self.tournament.players[player]} "
+            

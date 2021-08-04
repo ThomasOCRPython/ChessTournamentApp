@@ -8,4 +8,4 @@ class Match:
         
 
     def __str__(self):
-        pass    
+        return f"player_one: {self.player_one} \n player_two :{self.player_two} \n score_player_one ={self.player_one}\n score_player_two ={self.player_two}"    
