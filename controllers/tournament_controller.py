@@ -1,7 +1,7 @@
 
 from controllers.roundController import RoundController
 from datetime import datetime
-from controllers import matchController, player_controller
+from controllers.matchController import MatchController
 from models import tournament
 from models import player
 from models.round import Round 
@@ -15,7 +15,7 @@ from controllers.constantPlayer import NUM_OF_PLAYER
 class TournamentController:
     
     
-
+    A=[]
     def __init__(self):
         self.tournament=None
     
@@ -29,19 +29,10 @@ class TournamentController:
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
-        list_of_match=self.__list_of_match()
-        self.__create_round_one(self.tournament,list_of_match)
-        
-        
-        #self.__list_of_match()
-        
-        #self.__first_round()
-       
-    # def __first_round(self):   
-    #     Round.round_name = Round("1")
-    # #for ...
-    #     #round.add_match(match)
-    # #self.tournament.add_round(round)
+        self.__create_round_one(self.tournament)
+        #for i in range(int(self.tournament.nb_of_rounds)-1):
+           # self.__create_other_round(i,self.tournament)
+        self.__create_other_round(self.tournament)
     
     @staticmethod
     def __get_name(message):
@@ -64,7 +55,6 @@ class TournamentController:
                 break
             except ValueError :
                 get_date=view.get_input(f"Error: {message}")
-
         return get_date
     @staticmethod
     def __get_time_control(message):
@@ -82,29 +72,72 @@ class TournamentController:
         description=view.get_input(message)
         return description
 
-    def __create_round_one(self,tournament,list_of_match):
-        round=RoundController()
-        round.create_round("1",tournament)
-        for match in list_of_match:
-            match=matchController()
-            match.create_match(list_of_match,round)
+    def __create_round_one(self,tournament):
+        compt=0
+        tournament.players.sort(key = lambda x: x.elo)
+        sort_player=tournament.players
+        round_controller=RoundController()
+        round_controller.create_round(1,self.tournament)
+        for i in range(int(len(sort_player) / 2)):
+            matchController=MatchController()
+            matchs=matchController.create_match(sort_player[i], sort_player[i+int(len(sort_player) / 2)])
+            sort_player[i].add_oponent(sort_player[i+int(len(sort_player) / 2)].name)
+            sort_player[i+int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
+            round_controller.round.add_match(matchs)   
+        for match in self.tournament.rounds[0].matchs:
+            compt+=1
+            print("================ MATCH :",f"{compt}","================\n",match.player_one)
+            print("------------------------------\n",match.player_two)
+            match.score_player_one, match.score_player_two = self.__get_handle_score()
+            match.update_score()
+            view.print_match_result(match)
+    
+    def __create_other_round(self,tournament):
+        incrm=1
+        compte=0
+        tournament.players.sort(key = lambda x: (-x.score,x.elo))
+        sort_n_tournament=list(tournament.players)
+        round_controller=RoundController()
+        #round_controller.create_round(nb,self.tournament)
+        round_controller.create_round(2,self.tournament)
+        for i in range(int(len(tournament.players)/2)):
+            matchController=MatchController()
+            player1=sort_n_tournament[0]
+            player2=sort_n_tournament[1]
+            while player1.oponents==player2.name:
+                     player2=sort_n_tournament[1+incrm]
+            matchs=matchController.create_match(player1,player2)
+            player1.add_oponent(player2.name)
+            player2.add_oponent(player1.name)
+            round_controller.round.add_match(matchs)
+            sort_n_tournament.remove(player1)
+            sort_n_tournament.remove(player2)   
+        for match in self.tournament.rounds[1].matchs:
+            compte+=1
+            print("================ MATCH :",f"{compte}","================\n",match.player_one)
+            print("------------------------------\n",match.player_two)
+            match.score_player_one, match.score_player_two = self.__get_handle_score()
+            match.update_score()
+            view.print_match_result(match)
+
+        # for i in x:
+        #     print("------------------------------\n", i)
+
+    def __get_handle_score(self):
+        self.score = view.enter_score()
+        while self.score not in ("1", "2", "0"):
+            self.score=view.get_input(f"Error: Enter score (1 / 2 / 0): ")
+        if(self.score == "1"):
+            return 1,0
+        elif(self.score == "2"):
+            return 0,1
+        else:
+            return 0.5,0.5        
+            
 
 
 
        
-    def __list_of_match(self):
-        self.tournament.players.sort(key = lambda x: x.elo)
-        affichage=self.tournament.players
-        print (len(affichage))
-        for i in range(int(len(affichage) / 2)):
-            return affichage[i], affichage[i+int(len(affichage) / 2)]
-        
-        
-
-    # def __run_other_round(self, name):
-    #     round = Round(name)
-    #     pass
     
-    def __str__(self):
-            return f" name : {self.tournament.players[player]} "
+
             

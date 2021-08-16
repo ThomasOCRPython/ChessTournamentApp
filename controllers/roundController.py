@@ -5,17 +5,17 @@ from views import tournament_view as view
 from models.round import Round
 from datetime import datetime
 class RoundController:
-    
+    def __init__(self) :
+        pass
     def create_round(self,name,tournament_controller):
        
         round_name="Round"+str(name)
-        round_date_time_start="12/12/2021,12:12:00"#self.__get_date_time_start("Enter date time start")
-        round_date_time_end="12/12/2021,13:12:00"#self.__get_date_time_end("Enter date time end")
-        round=Round(round_name,round_date_time_start,round_date_time_end)
-        #round.add_match(match)
-        tournament_controller.add_round(round)
-        print(round_name,round_date_time_start,round_date_time_end)
-        #match=MatchController(self.round.matchs)
+        # round_date_time_start=
+        # round_date_time_end=
+        self.round=Round(round_name)
+        tournament_controller.add_round(self.round)
+        print(round_name)#,round_date_time_start,round_date_time_end)
+       
        
 
     @staticmethod
