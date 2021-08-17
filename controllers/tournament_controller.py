@@ -91,6 +91,10 @@ class TournamentController:
             match.score_player_one, match.score_player_two = self.__get_handle_score()
             match.update_score()
             view.print_match_result(match)
+        round_controller.round.datetime_end()
+        end=round_controller.round.date_time_end
+        print("date end :::::::::::::::::::-->",end,"<--:::::::::::::::::::")    
+           
     
     def __create_other_round(self,tournament):
         incrm=1
@@ -119,10 +123,10 @@ class TournamentController:
             match.score_player_one, match.score_player_two = self.__get_handle_score()
             match.update_score()
             view.print_match_result(match)
-
-        # for i in x:
-        #     print("------------------------------\n", i)
-
+        round_controller.round.datetime_end()
+        end=round_controller.round.date_time_end
+        print("date end :::::::::::::::::::-->",end,"<--:::::::::::::::::::")
+        
     def __get_handle_score(self):
         self.score = view.enter_score()
         while self.score not in ("1", "2", "0"):
@@ -133,7 +137,7 @@ class TournamentController:
             return 0,1
         else:
             return 0.5,0.5        
-            
+           
 
 
 

@@ -4,5 +4,5 @@ def get_input(message):
 def print_match_result(match):
     print(f"{match.player_one.name} : {match.score_player_one}", f"\n{match.player_two.name} : {match.score_player_two}")
 def enter_score():
-    score = input("================= SCORE ================\n Enter score (1 / 2 / 0) : ")
+    score = input("================= SCORE ================\n      Enter score (1 / 2 / 0) : ")
     return score    
