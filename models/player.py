@@ -14,4 +14,14 @@ class Player:
 
     def __str__(self):
         return f"last_name : {self.last_name} \n name : {self.name} \n date_of_bird : {self.date_of_bird} \n sex : {self.sex} \n elo : {self.elo} \n score : {self.score} \n oponent : {self.oponents}"
-             
+
+    def serializer(self):
+        data = {"last_name" : self.last_name,
+                "name" : self.name,
+                "date_of_bird" : self.date_of_bird,
+                "sex" : self.sex,
+                "elo" : self.elo,
+                "score": self.score,
+                #"oponents" : self.oponents
+                "oponents":[oponent for oponent in self.oponents]}
+        return data

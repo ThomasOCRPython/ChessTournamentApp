@@ -4,14 +4,15 @@ from models.tournament import Tournament
 from controllers import constantPlayer as const
 from views import tournament_view as view
 from models.player import Player
-from datetime import datetime
+# from datetime import datetime
+import datetime
 
 
 
 
 class PlayerController:
 
-    players=[Player("Duval","Thomas","03/09/1978","M",1,0,),Player("Gonage","Ranga","03/09/1998","M",2,0,),Player("Duval","Hélène","01/01/1981","F",3,0,),Player("Xczero","Android","01/09/2978","N",4,0,),Player("Einstein","Albert","14/03/1879","M",5,0,),Player("Einstein","Robert","14/03/1879","M",6,0,),Player("Margaret","Hamilton","03/09/1938","M",7,0,),Player("Davinci","George","03/09/1988","M",8,0,)]
+    players=[Player("Duval","Thomas","03-09-1978","M",1,0,),Player("Gonage","Ranga","03-09-1998","M",2,0,),Player("Duval","Hélène","01-01-1981","F",3,0,),Player("Xczero","Android","01-09-2978","N",4,0,),Player("Einstein","Albert","14-03-1879","M",5,0,),Player("Einstein","Robert","14-03-1879","M",6,0,),Player("Margaret","Hamilton","03-09-1938","M",7,0,),Player("Davinci","George","03-09-1988","M",8,0,)]
     def create_player(self, tournament_controller):
         
         '''for i in range(const.NUM_OF_PLAYER):
@@ -50,7 +51,7 @@ class PlayerController:
         while True:
             try:
 
-                datetime.strptime(get_date_of_bird, '%d/%m/%Y')
+                datetime.datetime.strptime(get_date_of_bird, '%d/%m/%Y')
                 break
             except ValueError:
                 get_date_of_bird=view.get_input(f"Error: {message}")
