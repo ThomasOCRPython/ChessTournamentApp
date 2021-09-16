@@ -15,3 +15,8 @@ def print_name_match_players(compte,match) :
 
 def print_date_end_round(end):
      print("date end :::::::::::::::::::-->",end,"<--:::::::::::::::::::")
+
+def quit_and_save():
+        quit=input("<<<<<<<<<< Do you want to stop and save the current tournament? >>>>>>>>> \n yes / no : ")
+        return quit
+        

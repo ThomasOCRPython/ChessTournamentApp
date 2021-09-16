@@ -1,5 +1,6 @@
+from tinydb import TinyDB, Query
 class Player:
-    def __init__(self, last_name, name, date_of_bird, sex,elo,score=0):
+    def __init__(self, last_name, name, date_of_bird, sex, elo, score=0):
         self.last_name=last_name
         self.name=name
         self.date_of_bird=date_of_bird
@@ -22,6 +23,12 @@ class Player:
                 "sex" : self.sex,
                 "elo" : self.elo,
                 "score": self.score,
-                #"oponents" : self.oponents
-                "oponents":[oponent for oponent in self.oponents]}
+                "oponents" : self.oponents}
+                #"oponents":[oponent for oponent in self.oponents]}
         return data
+    
+    def save(self):
+        db=TinyDB('db.json',indent=4)
+        player=db.table('player') 
+        player.insert(self.serializer())        
+       

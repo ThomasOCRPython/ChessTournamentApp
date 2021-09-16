@@ -1,24 +1,20 @@
 
-from json import encoder
 from controllers.roundController import RoundController
-from datetime import date, datetime
+from datetime import datetime 
 from controllers.matchController import MatchController
-from models import tournament
-from models import player
 from models.round import Round 
 from models.tournament import Tournament
 from models.player import Player
+from models.match import Match
 from views import tournament_view as view
 from controllers.player_controller import PlayerController
 from controllers.constantPlayer import NUM_OF_PLAYER
-#from datetime import datetime
+
+
 import datetime
-import json
-#NUM_OF_PLAYER=8
+
 class TournamentController:
     
-    
-    A=[]
     def __init__(self):
         self.tournament=None
     
@@ -30,36 +26,41 @@ class TournamentController:
         tournament_date="30-07-2021"#self.__get_date("Enter the date of the tournament : ")
         tournament_get_time_control="1"#self.__get_time_control("Enter '1' for 'bullet', '2' for 'blits', '3' for 'coup rapide' :")
         # tournament_description=self.__get_description("Enter description")
+        
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
+        #self.player_controller.player.add_player_bdd(self.tournament.players)
+        
+        
+        test=self.tournament.table_tournament_not_finished()
+        print(test)
         self.__create_round_one(self.tournament)
+        if self.__quit_and_save_the_round():
+            return 
+        
+        
         for nb in range(2,2+(int(self.tournament.nb_of_rounds)-1)):
             self.__create_other_round(nb,self.tournament)
-            
-        tournament_serialiser=self.tournament.serializer()
-        x=json.dumps(tournament_serialiser,default=self.__monconvertisseur,indent=4)
-        print(x)
-        #tournaments_serialiser2=self.tournament.serializer()
-        # x=json.dumps(tournaments_serialiser,default=str, indent=4)
-        #x=json.dumps(tournaments_serialiser,default=self.__monconvertisseur,indent=4)
-        #print(x)
+            if self.__quit_and_save_the_round():
+                return 
+        
         
 
-        
-    
     @staticmethod
     def __get_name(message):
         name=view.get_input(message)
         while not name.isalpha():
             name=view.get_input(f"Error: {message}")
         return name 
+
     @staticmethod
     def __get_place(message):
         place=view.get_input(message)
         while not place.isalpha():
             place=view.get_input(f"Error: {message}")
         return place 
+
     @staticmethod
     def __get_date(message):
         get_date= view.get_input(message)
@@ -70,6 +71,7 @@ class TournamentController:
             except ValueError :
                 get_date=view.get_input(f"Error: {message}")
         return get_date
+
     @staticmethod
     def __get_time_control(message):
         time_control=view.get_input(message)
@@ -97,13 +99,17 @@ class TournamentController:
         else:
             return 0.5,0.5 
 
-    def __monconvertisseur (self, o ):
-        if isinstance ( o , (datetime.date,datetime.datetime) ):
-            return o . __str__ ()
-
-    def __default(self,o):
-        if isinstance(o, datetime.datetime):
-            return o.isoformat()
+    def __quit_and_save_the_round(self):
+        self.quit = view.quit_and_save().lower()
+        while self.quit not in ("yes", "no"):
+            self.quit=view.get_input(f"Error: Enter yes or no : ")
+        if(self.quit == "yes"):
+            self.tournament.save()
+            return True
+        elif(self.quit == "no"):
+            return False
+           
+        
 
     def __create_round_one(self,tournament):
         compte=0
@@ -119,7 +125,9 @@ class TournamentController:
             round_controller.round.add_match(matchs)
             # backup match
             match_serializ=matchs.match_serializer()
-            round_controller.round.add_match_serializ(match_serializ)   
+            round_controller.round.add_match_serializ(match_serializ)
+         
+                
         for match in self.tournament.rounds[0].matchs:
             compte+=1
             view.print_name_match_players(compte,match)
@@ -129,6 +137,7 @@ class TournamentController:
         round_controller.round.datetime_end()
         end=round_controller.round.date_time_end
         view.print_date_end_round(end)
+        
                     
     def __create_other_round(self,nb,tournament):
         incrm=1
@@ -144,7 +153,8 @@ class TournamentController:
             try:
                 while player2.name in player1.oponents:
                         player2=sort_n_tournament[1+incrm]
-            except:
+                        incrm+=1
+            except IndexError:
                 player2=sort_n_tournament[1]                    
             matchs=matchController.create_match(player1,player2)
             player1.add_oponent(player2.name)
@@ -154,8 +164,9 @@ class TournamentController:
             match_serializ=matchs.match_serializer()
             round_controller.round.add_match_serializ(match_serializ)  
             sort_n_tournament.remove(player1)
-            sort_n_tournament.remove(player2)   
-        for match in self.tournament.rounds[0+incrm].matchs:
+            sort_n_tournament.remove(player2)  
+             
+        for match in self.tournament.rounds[nb-1].matchs:
             compte+=1
             view.print_name_match_players(compte,match)
             match.score_player_one, match.score_player_two = self.__get_handle_score()
@@ -165,10 +176,62 @@ class TournamentController:
         end=round_controller.round.date_time_end
         view.print_date_end_round(end)
         
+
+    
+    def reload_tournament(self,id_tournament):
+        print('coucou')
         
         
-           
-           
+        self.json=id_tournament
+        
+        # self.json=self.tournament.load_tournament_table(id_tournament)
+        self.tournament = None # je met none car dans le cas normal il serait à None.
+        #Il va aller lire le json et récupérer l'information du tournoi qu'on veut reprendre (Dans notre exemple self.json)
+                           
+        self.deserilizer()
+        
+        
+        number_round_to_run = 4 - len(self.json["rounds"])
+        print(number_round_to_run)
+        
+        if number_round_to_run == 4:
+            self.__create_round_one(self.tournament)
+            for nb in range(2,2+(int(self.tournament.nb_of_rounds)-1)):
+                self.__create_other_round(nb,self.tournament)
+                if self.__quit_and_save_the_round():
+                    return
+        else:
+            
+            for i in range(len(self.json["rounds"]) + 1, 5):
+                
+                self.__create_other_round(i,self.tournament)
+                if self.__quit_and_save_the_round():
+                    return
+                #pass
+                #run_round(i)
+
+    def deserilizer(self):
+        self.tournament = Tournament(self.json["name"], self.json["place"],self.json["date"],self.json["nb_of_rounds"])
+        self.tournament.players = []  
+        for player in self.json["players"]:
+            reload_player = Player(player["last_name"],player["name"],player["date_of_bird"], player["sex"], player["elo"], player["score"])
+            self.tournament.add_player(reload_player)
+          
+        for round in self.json["rounds"]:
+            reload_round = Round(round["round_name"],datetime.datetime.strptime(round["date_time_start"],'%A, %d %B,%Y'),datetime.datetime.strptime(round["date_time_end"],'%A, %d %B,%Y'))
+            for match in round["matchs_serializ"]:
+                player1 = Player(match["player_one"]["last_name"],match["player_one"]["name"],match["player_one"]["date_of_bird"],match["player_one"]["sex"],match["player_one"]["elo"], match["player_one"]["score"])
+                player2 = Player(match["player_two"]["last_name"],match["player_two"]["name"],match["player_two"]["date_of_bird"],match["player_two"]["sex"],match["player_two"]["elo"], match["player_two"]["score"])             
+                reload_match = Match(player1, player2, match["score_player_one"], match["score_player_two"])
+                reload_round.add_match(reload_match)
+            self.tournament.add_round(reload_round)
+        print("                           >>>>>>>>>>>TOURNAMENT SERIALIZER<<<<<<<<<\n",self.tournament.serializer())
+        
+
+    
+        
+        
+    
 
 
 

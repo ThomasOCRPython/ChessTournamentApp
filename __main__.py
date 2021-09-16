@@ -1,4 +1,10 @@
-from controllers.tournament_controller import TournamentController
+
+from controllers.home_menu_controller import HomeMenuController
+
+
 if __name__=="__main__":
-    tournamentController=TournamentController()
-    tournamentController.create_new_tournament()
+     #call homemenu 
+     home_menu= HomeMenuController()
+     home_menu.get_choice()
+     # tournamentController=TournamentController()
+     # tournamentController.create_new_tournament()

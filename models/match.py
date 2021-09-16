@@ -18,3 +18,6 @@ class Match:
                 "score_player_one" : self.score_player_one,
                 "score_player_two" : self.score_player_two}
         return data
+    
+    def add_match_bdd ( self , match_bdd ):
+        pass

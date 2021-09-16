@@ -2,10 +2,10 @@
 import datetime
 from models.match import Match
 class Round:
-    def __init__(self, round_name):
+    def __init__(self, round_name,date_time_start=None,date_time_end=None):#matchs_serializ=[]
         self.round_name=round_name
-        self.date_time_start=''
-        self.date_time_end=''
+        self.date_time_start=date_time_start
+        self.date_time_end=date_time_end
         self.matchs=[]
         self.matchs_serializ=[]
 
@@ -23,8 +23,9 @@ class Round:
     
     def serializer(self):
         data = {"round_name" : self.round_name,
-                "date_time_start" : self.date_time_start,
-                "date_time_end" : self.date_time_end,
-                #"matchs" : [match.match_serializer() for match in self.matchs]
+                "date_time_start" : self.date_time_start.strftime('%A, %d %B,%Y'),
+                "date_time_end" : self.date_time_end.strftime('%A, %d %B,%Y'),
                 "matchs_serializ":[ match for match in self.matchs_serializ]}
         return data
+    
+    
