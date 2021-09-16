@@ -123,9 +123,7 @@ class TournamentController:
             sort_player[i].add_oponent(sort_player[i+int(len(sort_player) / 2)].name)
             sort_player[i+int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
             round_controller.round.add_match(matchs)
-            # backup match
-            match_serializ=matchs.match_serializer()
-            round_controller.round.add_match_serializ(match_serializ)
+           
          
                 
         for match in self.tournament.rounds[0].matchs:
@@ -160,18 +158,17 @@ class TournamentController:
             player1.add_oponent(player2.name)
             player2.add_oponent(player1.name)
             round_controller.round.add_match(matchs)
-            # backup match
-            match_serializ=matchs.match_serializer()
-            round_controller.round.add_match_serializ(match_serializ)  
             sort_n_tournament.remove(player1)
             sort_n_tournament.remove(player2)  
-             
+        print (nb)    
         for match in self.tournament.rounds[nb-1].matchs:
+            
             compte+=1
             view.print_name_match_players(compte,match)
             match.score_player_one, match.score_player_two = self.__get_handle_score()
             match.update_score()
             view.print_match_result(match)
+        
         round_controller.round.datetime_end()
         end=round_controller.round.date_time_end
         view.print_date_end_round(end)
@@ -219,13 +216,13 @@ class TournamentController:
           
         for round in self.json["rounds"]:
             reload_round = Round(round["round_name"],datetime.datetime.strptime(round["date_time_start"],'%A, %d %B,%Y'),datetime.datetime.strptime(round["date_time_end"],'%A, %d %B,%Y'))
-            for match in round["matchs_serializ"]:
+            for match in round["matchs"]:
                 player1 = Player(match["player_one"]["last_name"],match["player_one"]["name"],match["player_one"]["date_of_bird"],match["player_one"]["sex"],match["player_one"]["elo"], match["player_one"]["score"])
                 player2 = Player(match["player_two"]["last_name"],match["player_two"]["name"],match["player_two"]["date_of_bird"],match["player_two"]["sex"],match["player_two"]["elo"], match["player_two"]["score"])             
                 reload_match = Match(player1, player2, match["score_player_one"], match["score_player_two"])
                 reload_round.add_match(reload_match)
             self.tournament.add_round(reload_round)
-        print("                           >>>>>>>>>>>TOURNAMENT SERIALIZER<<<<<<<<<\n",self.tournament.serializer())
+       
         
 
     

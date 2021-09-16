@@ -12,7 +12,7 @@ class HomeMenuController:
     def get_choice(self):
 
         self.choice = None
-        while self.choice not in ("1", "2", "3","4","5","6","7"):
+        while self.choice not in ("1", "2", "3","4","5","6","7","8"):
             self.choice = view.enter_choice()
             
             if(self.choice == "1"):
@@ -28,9 +28,13 @@ class HomeMenuController:
                 tour.table_match(self)
             elif(self.choice =="6"):
                 player.table_players(self)
+            elif(self.choice =="7"):
+                new=(view.enter_new_elo())
+                player.update_players_elo(self,new[0],new[1])
+                print(new)
             else:
                 self.__exit() 
-    
+            self.choice = None
     def __choice_tournament_and_reload(self):
         
        tour.table_tournament_not_finished(self)
@@ -39,6 +43,7 @@ class HomeMenuController:
        tournament_controller=tournament()
        tournament_controller.reload_tournament(table_tournament)
        tour.remove(self,id_tournament)
+
        
        
        

@@ -39,10 +39,21 @@ class Player:
         player=db.table('player')
         all_players=player.all()
         for player in all_players:
-            order_player.append((player.doc_id,player["name"],player["elo"]))
-        # for player in all_players:
-        #     print("=============== PLAYER :",player.doc_id, player['name']," ELO :",player["elo"],"===============")
-        sorted_apha=sorted(order_player, key=lambda player: player[2])
-        print (sorted(sorted_apha, key=lambda player: player[1]))
+            order_player.append([player.doc_id,player["name"],player["elo"]])
+        sorted_player=sorted(order_player, key=lambda player:( player[1],player[2]))
+        for player in sorted_player:
+
+            print("=============== PLAYER :",player[0],"-",player[1]," ELO :",player[2],"===============")
+
+
+    def update_players_elo (self,newElo,playerId):
+        db=TinyDB('db.json', indent=4)
+        query=Query()
+        player=db.table('player')
+        player.update({"elo":newElo},query.player.doc_id==playerId)
+
+
+        
+        
         
         
