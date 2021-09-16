@@ -26,6 +26,7 @@ class PlayerController:
             # tournament_controller.add_player(player)
         for player in self.players:
             tournament_controller.add_player(player)
+            Player.save(player)
 
     @staticmethod
     def __get_name(message):

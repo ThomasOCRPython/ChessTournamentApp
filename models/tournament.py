@@ -1,5 +1,7 @@
 
 from tinydb import TinyDB, Query,where
+from datetime import datetime 
+
 
 
 
@@ -53,12 +55,36 @@ class Tournament:
         for tournament in all_tournament:
             if len(tournament['rounds'])!=4:
                 print(tournament.doc_id, tournament['name'])
-
-    def load_id_table(self,tournament):
+    
+    def table_tournament(self):
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
-        tournament_id = tournament.doc_id
-        return tournament_id
+        all_tournament=tournament.all()
+        for tournament in all_tournament:
+            print("================TOURNAMENT NAME :",tournament.doc_id, tournament['name'],"================")
+
+    def table_round(self):
+        db=TinyDB('db.json', indent=4)
+        tournament=db.table('tournament')
+        all_tournament=tournament.all()
+        for tournament in all_tournament:
+            #round=tournament.search(where('type') == 'round')
+            print("===============TOURNAMENT",tournament.doc_id, tournament['name'],"===============")
+            for round in tournament["rounds"]:
+                print("round_name :",round["round_name"],"\nround date_time_start:",round["date_time_start"],"\nround date_time_end:",round["date_time_end"])
+    
+    def table_match(self):
+        db=TinyDB('db.json', indent=4)
+        tournament=db.table('tournament')
+        all_tournament=tournament.all()
+        for tournament in all_tournament:
+            print("===============TOURNAMENT",tournament.doc_id, tournament['name'],"===============")
+            for round in tournament["rounds"]:
+                print("round_name :",round["round_name"])
+                for matchs in round["matchs_serializ"]:
+                    print(matchs["player_one"]["name"],matchs["player_two"]["name"])
+                 
+            
 
     def load_tournament_table(self,id_tournament):
         db=TinyDB('db.json', indent=4)

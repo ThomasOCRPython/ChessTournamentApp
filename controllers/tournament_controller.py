@@ -33,6 +33,7 @@ class TournamentController:
         #self.player_controller.player.add_player_bdd(self.tournament.players)
         
         
+        
         test=self.tournament.table_tournament_not_finished()
         print(test)
         self.__create_round_one(self.tournament)
@@ -108,8 +109,7 @@ class TournamentController:
             return True
         elif(self.quit == "no"):
             return False
-           
-        
+    
 
     def __create_round_one(self,tournament):
         compte=0

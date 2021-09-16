@@ -1,4 +1,5 @@
 from tinydb import TinyDB, Query
+from operator import itemgetter
 class Player:
     def __init__(self, last_name, name, date_of_bird, sex, elo, score=0):
         self.last_name=last_name
@@ -30,5 +31,18 @@ class Player:
     def save(self):
         db=TinyDB('db.json',indent=4)
         player=db.table('player') 
-        player.insert(self.serializer())        
-       
+        player.insert(self.serializer())
+
+    def table_players(self):
+        order_player=[]
+        db=TinyDB('db.json', indent=4)
+        player=db.table('player')
+        all_players=player.all()
+        for player in all_players:
+            order_player.append((player.doc_id,player["name"],player["elo"]))
+        # for player in all_players:
+        #     print("=============== PLAYER :",player.doc_id, player['name']," ELO :",player["elo"],"===============")
+        sorted_apha=sorted(order_player, key=lambda player: player[2])
+        print (sorted(sorted_apha, key=lambda player: player[1]))
+        
+        
