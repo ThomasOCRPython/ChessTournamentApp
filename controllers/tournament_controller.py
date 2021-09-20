@@ -30,9 +30,8 @@ class TournamentController:
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
+        #test=self.tournament.table_tournament_not_finished()
         
-        test=self.tournament.table_tournament_not_finished()
-        print(test)
         self.__create_round_one(self.tournament)
         if self.__quit_and_save_the_round():
             return 
@@ -159,8 +158,7 @@ class TournamentController:
             player2.add_oponent(player1.name)
             round_controller.round.add_match(matchs)
             sort_n_tournament.remove(player1)
-            sort_n_tournament.remove(player2)  
-        print (nb)    
+            sort_n_tournament.remove(player2)    
         for match in self.tournament.rounds[nb-1].matchs:
             
             compte+=1
@@ -176,21 +174,10 @@ class TournamentController:
 
     
     def reload_tournament(self,id_tournament):
-        print('coucou')
-        
-        
         self.json=id_tournament
-        
-        # self.json=self.tournament.load_tournament_table(id_tournament)
-        self.tournament = None # je met none car dans le cas normal il serait à None.
-        #Il va aller lire le json et récupérer l'information du tournoi qu'on veut reprendre (Dans notre exemple self.json)
-                           
+        self.tournament = None                   
         self.deserilizer()
-        
-        
         number_round_to_run = 4 - len(self.json["rounds"])
-        print(number_round_to_run)
-        
         if number_round_to_run == 4:
             self.__create_round_one(self.tournament)
             for nb in range(2,2+(int(self.tournament.nb_of_rounds)-1)):
@@ -198,15 +185,16 @@ class TournamentController:
                 if self.__quit_and_save_the_round():
                     return
         else:
-            cpt=2
+            cpteur=2
             for i in range(len(self.json["rounds"]) + 1, 5):
-                cpt+=1
+                cpteur+=1
+                print(cpteur,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
                 self.__create_other_round(i,self.tournament)
                 if self.__quit_and_save_the_round():
                     return
-                if cpt==(2+(int(self.tournament.nb_of_rounds)-1)):
+                if cpteur==(2+(int(self.tournament.nb_of_rounds)-1)):
                     self.tournament.save()
-                return
+                    return
     
 
     def deserilizer(self):

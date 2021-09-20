@@ -43,7 +43,7 @@ class Tournament:
         db=TinyDB('db.json',indent=4)
         tournament=db.table('tournament')
         tournament.insert(self.serializer())
-        print(self.serializer())
+       #print(self.serializer())
              
     def remove(self,id):
         db=TinyDB('db.json',indent=4)
@@ -89,9 +89,6 @@ class Tournament:
         tournament=db.table('tournament')
         tournament = tournament.get(doc_id=id_tournament)
         return tournament["players"]
-        for player in tournament["players"]:
-            cpt+=1
-            home.print_players_tournament(cpt,player["name"],player['elo'],player['score'])
             
     def load_tournament_table(self,id_tournament):
         db=TinyDB('db.json', indent=4)
