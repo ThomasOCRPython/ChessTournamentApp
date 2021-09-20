@@ -30,9 +30,6 @@ class TournamentController:
         self.tournament=Tournament(tournament_name,tournament_place,tournament_date,tournament_get_time_control)
         self.player_controller=PlayerController()
         self.player_controller.create_player(self.tournament)
-        #self.player_controller.player.add_player_bdd(self.tournament.players)
-        
-        
         
         test=self.tournament.table_tournament_not_finished()
         print(test)
@@ -40,11 +37,16 @@ class TournamentController:
         if self.__quit_and_save_the_round():
             return 
         
-        
+        cpt=2
         for nb in range(2,2+(int(self.tournament.nb_of_rounds)-1)):
+            cpt+=1
             self.__create_other_round(nb,self.tournament)
             if self.__quit_and_save_the_round():
                 return 
+            if cpt==(2+(int(self.tournament.nb_of_rounds)-1)):
+                self.tournament.save()
+                return
+
         
         
 
@@ -123,9 +125,7 @@ class TournamentController:
             sort_player[i].add_oponent(sort_player[i+int(len(sort_player) / 2)].name)
             sort_player[i+int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
             round_controller.round.add_match(matchs)
-           
-         
-                
+     
         for match in self.tournament.rounds[0].matchs:
             compte+=1
             view.print_name_match_players(compte,match)

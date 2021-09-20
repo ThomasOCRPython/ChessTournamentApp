@@ -12,7 +12,7 @@ import datetime
 
 class PlayerController:
 
-    players=[Player("Duval","Thomas","03-09-1978","M",1,0,),Player("Gonage","Ranga","03-09-1998","M",2,0,),Player("Duval","Hélène","01-01-1981","F",3,0,),Player("Xczero","Android","01-09-2978","N",4,0,),Player("Einstein","Albert","14-03-1879","M",5,0,),Player("Einstein","Robert","14-03-1879","M",6,0,),Player("Margaret","Hamilton","03-09-1938","M",7,0,),Player("Davinci","George","03-09-1988","M",8,0,)]
+    players=[Player("Durval","Thomas","03-09-1978","M",1,0,),Player("Gonage","Ranga","03-09-1998","M",2,0,),Player("Duval","Hélène","01-01-1981","F",3,0,),Player("Xczero","Android","01-09-2978","N",4,0,),Player("Einstein","Albert","14-03-1879","M",5,0,),Player("Einstein","Robert","14-03-1879","M",6,0,),Player("Margaret","Hamilton","03-09-1938","M",7,0,),Player("Davinci","George","03-09-1988","M",8,0,)]
     def create_player(self, tournament_controller):
         
         '''for i in range(const.NUM_OF_PLAYER):

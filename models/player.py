@@ -1,5 +1,6 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, Query,where
 from operator import itemgetter
+from views import home_menu_view as home
 class Player:
     def __init__(self, last_name, name, date_of_bird, sex, elo, score=0):
         self.last_name=last_name
@@ -24,33 +25,52 @@ class Player:
                 "sex" : self.sex,
                 "elo" : self.elo,
                 "score": self.score,
-                "oponents" : self.oponents}
-                #"oponents":[oponent for oponent in self.oponents]}
+                "oponents" : self.oponents}        
         return data
-    
+    def serializer_player(self):
+        data = {"last_name" : self.last_name,
+                "name" : self.name,
+                "date_of_bird" : self.date_of_bird,
+                "elo" : self.elo,
+                "score": self.score,
+                }        
+        return data
+        
     def save(self):
-        db=TinyDB('db.json',indent=4)
-        player=db.table('player') 
-        player.insert(self.serializer())
-
+        x=self.serializer_player()
+        insert_compare=[x['last_name'],x['name'],x['date_of_bird']]
+        player_exist=self.player_exist()
+        if insert_compare in player_exist:   
+            pass
+        else:
+            db=TinyDB('db.json', indent=4)
+            player=db.table('player')
+            player.insert(self.serializer_player())
+        
     def table_players(self):
-        order_player=[]
+        #order_player=[]
         db=TinyDB('db.json', indent=4)
         player=db.table('player')
         all_players=player.all()
-        for player in all_players:
-            order_player.append([player.doc_id,player["name"],player["elo"]])
-        sorted_player=sorted(order_player, key=lambda player:( player[1],player[2]))
-        for player in sorted_player:
+        return all_players
 
-            print("=============== PLAYER :",player[0],"-",player[1]," ELO :",player[2],"===============")
-
+    def player_exist(self):
+        exist_player=[]
+        db=TinyDB('db.json', indent=4)
+        player=db.table('player')
+        player_exist=player.all()
+        for player in player_exist:
+            exist_player.append([player["last_name"],player["name"],player['date_of_bird']])
+        return exist_player
 
     def update_players_elo (self,newElo,playerId):
         db=TinyDB('db.json', indent=4)
         query=Query()
-        player=db.table('player')
-        player.update({"elo":newElo},query.player.doc_id==playerId)
+        players=db.table('player')
+        
+        players.update({"elo":newElo},doc_ids=[playerId])
+        
+        
 
 
         

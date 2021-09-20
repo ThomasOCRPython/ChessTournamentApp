@@ -1,4 +1,6 @@
 
+from views import home_menu_view as home 
+
 from tinydb import TinyDB, Query,where
 from datetime import datetime 
 
@@ -43,7 +45,6 @@ class Tournament:
         tournament.insert(self.serializer())
         print(self.serializer())
              
-
     def remove(self,id):
         db=TinyDB('db.json',indent=4)
         tournament=db.table('tournament')
@@ -55,43 +56,47 @@ class Tournament:
         all_tournament=tournament.all()
         for tournament in all_tournament:
             if len(tournament['rounds'])!=4:
-                print(tournament.doc_id, tournament['name'])
+                home.print_tournaments_name(tournament.doc_id,tournament['name'])
     
     def table_tournament(self):
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
         all_tournament=tournament.all()
         for tournament in all_tournament:
-            print("================TOURNAMENT NAME :",tournament.doc_id, tournament['name'],"================")
-
-    def table_round(self):
-        db=TinyDB('db.json', indent=4)
-        tournament=db.table('tournament')
-        all_tournament=tournament.all()
-        for tournament in all_tournament:
-            #round=tournament.search(where('type') == 'round')
-            print("===============TOURNAMENT",tournament.doc_id, tournament['name'],"===============")
-            for round in tournament["rounds"]:
-                print("round_name :",round["round_name"],"\nround date_time_start:",round["date_time_start"],"\nround date_time_end:",round["date_time_end"])
-    
-    def table_match(self):
-        db=TinyDB('db.json', indent=4)
-        tournament=db.table('tournament')
-        all_tournament=tournament.all()
-        for tournament in all_tournament:
-            print("===============TOURNAMENT",tournament.doc_id, tournament['name'],"===============")
-            for round in tournament["rounds"]:
-                print("round_name :",round["round_name"])
-                for matchs in round["matchs"]:
-                    print(matchs["player_one"]["name"],matchs["player_two"]["name"])
-                 
+            home.print_tournaments_name(tournament.doc_id,tournament['name'])
             
-
+    def table_round(self,id_tournament):
+        round_id=0
+        db=TinyDB('db.json', indent=4)
+        tournament=db.table('tournament')
+        # all_tournament=tournament.all()
+        tournament = tournament.get(doc_id=id_tournament)
+        for round in tournament["rounds"]:
+            round_id+=1
+            home.print_rounds_name(round["round_name"],round_id,round["date_time_start"],round["date_time_end"])
+        return tournament["rounds"]
+    
+    def table_match(self,round_name,choice_id_round):
+        cpt=0
+        round=round_name[choice_id_round-1]
+        for match in round["matchs"]:
+            cpt+=1
+            home.print_match_players(cpt,match["player_one"]["name"],match["player_two"]["name"])
+            
+    def table_player_tournament(self,id_tournament):
+        cpt=0
+        db=TinyDB('db.json', indent=4)
+        tournament=db.table('tournament')
+        tournament = tournament.get(doc_id=id_tournament)
+        for player in tournament["players"]:
+            cpt+=1
+            home.print_players_tournament(cpt,player["name"],player['elo'],player['score'])
+            
     def load_tournament_table(self,id_tournament):
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
         tournament = tournament.get(doc_id=id_tournament)
         return tournament
-        #print (tournament)
+        
 
     
