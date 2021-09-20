@@ -198,14 +198,16 @@ class TournamentController:
                 if self.__quit_and_save_the_round():
                     return
         else:
-            
+            cpt=2
             for i in range(len(self.json["rounds"]) + 1, 5):
-                
+                cpt+=1
                 self.__create_other_round(i,self.tournament)
                 if self.__quit_and_save_the_round():
                     return
-                #pass
-                #run_round(i)
+                if cpt==(2+(int(self.tournament.nb_of_rounds)-1)):
+                    self.tournament.save()
+                return
+    
 
     def deserilizer(self):
         self.tournament = Tournament(self.json["name"], self.json["place"],self.json["date"],self.json["nb_of_rounds"])
