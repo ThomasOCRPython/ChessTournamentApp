@@ -45,12 +45,20 @@ class HomeMenuController:
         if(self.select== 1):
             tour.table_tournament(self)
             choice_id_tournament=int(view.get_message_sub_menu("choose the id of a tournament to see its players :"))
-            tour.table_player_tournament(self,choice_id_tournament)
+            tournament_player=tour.table_player_tournament(self,choice_id_tournament)
+            order_tournament_player=[]
+            for player_not_order in tournament_player: 
+                order_tournament_player.append([player_not_order["name"],player_not_order["elo"],player_not_order["score"]])
+                view.print_players_tournament(player_not_order['name'],player_not_order['elo'],player_not_order['score'])
             self.choice_order_player_tournament=int(view.get_message_sub_menu("Choose the order of presentation of the players:\n 1-alphabetic order\n 2-elo order\n 3-back to menu\n Enter your choice :"))
             if(self.choice_order_player_tournament==1):
-                pass
+                sorted_player_alpha=sorted(order_tournament_player, key=lambda player: player[0])
+                for player_alpha in sorted_player_alpha:
+                    view.print_players_tournament(player_alpha[0],player_alpha[1],player_alpha[2])
             elif(self.choice_order_player_tournament==2):
-                pass
+                sorted_player_elo=sorted(order_tournament_player, key=lambda player: player[2])
+                for player_alpha_b in sorted_player_elo:
+                    view.print_players_tournament(player_alpha_b[0],player_alpha_b[1],player_alpha_b[2])
             else:
                 pass
         elif(self.select== 2):
@@ -81,7 +89,9 @@ class HomeMenuController:
             pass
             
     def __update_players_elo(self):
-        player.table_players(self)
+        all_players=player.table_players(self)
+        for player_not_order in all_players:
+            view.print_player(player_not_order.doc_id,player_not_order['name'],player_not_order['elo'])
         id_player=int(view.update_player())
         print (id_player)
         new=(view.enter_new_elo())

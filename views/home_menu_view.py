@@ -26,7 +26,7 @@ def print_tournaments_name(tournament_id,tournament_name):
     print("=======================================================================\n                       CHOICE TOURNAMENT ID:",f"{tournament_id}","\n=======================================================================\n=========== TOURNAMENT ID :",f"{tournament_id}",'=== TOURNAMENT NAME :', f"{tournament_name}","===========\n")
 def print_rounds_name(round_name,round_id,date_time_start,date_time_end):
     print("=======================================================================\n                       CHOICE ROUND ID :",f"{round_id}","\n=======================================================================\n            Round_name :",f"{round_name}",   "***** Round_ID :",  f"{round_id}","*****","\nRound date_time_start:",f"{date_time_start}","\nRound date_time_end:",f"{date_time_end}")
-def print_players_tournament(cpt,name,elo,score):
-    print("=======================================================================\n                       PLAYER:",f"{cpt}","\n=======================================================================\n             PLAYER NAME :",f"{name}","\n             PLAYER ELO :",f"{elo}","\n             PLAYER SCORE :",f"{score}")
+def print_players_tournament(name,elo,score):
+    print("=======================================================================\n                       PLAYER:","\n=======================================================================\n             PLAYER NAME :",f"{name}","\n             PLAYER ELO :",f"{elo}","\n             PLAYER SCORE :",f"{score}")
     
 
