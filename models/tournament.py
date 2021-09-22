@@ -58,7 +58,7 @@ class Tournament:
         for tournament in all_tournament:
             if len(tournament['rounds'])!=4:
                 home.print_tournaments_name(tournament.doc_id,tournament['name'])
-                tournament_not_finished_id(tournament.doc_id)
+                tournament_not_finished_id.append(tournament.doc_id)
         return tournament_not_finished_id
     
     def table_tournament(self):

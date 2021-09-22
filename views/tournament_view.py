@@ -12,7 +12,9 @@ def enter_score():
 def print_name_match_players(compte,match) :
     print("================ MATCH :",f"{compte}","================\n",match.player_one)
     print("------------------------------\n",match.player_two)
-
+def print_round_name_and_date_time_start(round_name,name,round_date_time_start):
+    print(round_name,"     ---","[ROUND :",f"{name}]","---","\ndate start :",round_date_time_start)
+        
 def print_date_end_round(end):
      print("date end :::::::::::::::::::-->",end,"<--:::::::::::::::::::")
 

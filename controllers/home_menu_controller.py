@@ -102,7 +102,7 @@ class HomeMenuController:
         for player_not_order in tournament_player: 
             order_tournament_player.append([player_not_order["name"],player_not_order["elo"],player_not_order["score"]])
             view.print_players_tournament(player_not_order['name'],player_not_order['elo'],player_not_order['score'])
-        self.choice_order_player_tournament=int(view.get_message_sub_menu("Choose the order of presentation of the players:\n 1-alphabetic order\n 2-elo order\n 3-back to menu\n Enter your choice :"))
+        self.choice_order_player_tournament=view.get_message_sub_menu("Choose the order of presentation of the players:\n 1-alphabetic order\n 2-elo order\n 3-back to menu\n Enter your choice :")
         while self.choice_order_player_tournament not in ("1", "2", "3"):
             self.choice_order_player_tournament=view.get_message_sub_menu("\n###wrong touch###\n\nChoose the order of presentation of the players:\n 1-alphabetic order\n 2-elo order\n 3-back to menu\n Enter your choice :")
         if(self.choice_order_player_tournament=="1"):

@@ -15,6 +15,7 @@ class RoundController:
         self.round=Round(round_name)
         self.round.date_time_start=datetime.now()
         tournament_controller.add_round(self.round)
+        view.print_round_name_and_date_time_start(round_name,name,self.round.date_time_start)
         # print(round_name,"     ---","[ROUND :",f"{name}]","---")#,round_date_time_start,round_date_time_end)
         # print("date start :",self.round.date_time_start)
         
