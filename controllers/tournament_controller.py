@@ -124,16 +124,16 @@ class TournamentController:
             sort_player[i].add_oponent(sort_player[i+int(len(sort_player) / 2)].name)
             sort_player[i+int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
             round_controller.round.add_match(matchs)
-     
-        for match in self.tournament.rounds[0].matchs:
-            compte+=1
-            view.print_name_match_players(compte,match)
-            match.score_player_one, match.score_player_two = self.__get_handle_score()
-            match.update_score()
-            view.print_match_result(match)
-        round_controller.round.datetime_end()
-        end=round_controller.round.date_time_end
-        view.print_date_end_round(end)
+        self.__show_match_and_datetime_end(0,compte,round_controller)
+        # for match in self.tournament.rounds[0].matchs:
+        #     compte+=1
+        #     view.print_name_match_players(compte,match)
+        #     match.score_player_one, match.score_player_two = self.__get_handle_score()
+        #     match.update_score()
+        #     view.print_match_result(match)
+        # round_controller.round.datetime_end()
+        # end=round_controller.round.date_time_end
+        # view.print_date_end_round(end)
         
                     
     def __create_other_round(self,nb,tournament):
@@ -158,9 +158,22 @@ class TournamentController:
             player2.add_oponent(player1.name)
             round_controller.round.add_match(matchs)
             sort_n_tournament.remove(player1)
-            sort_n_tournament.remove(player2)    
-        for match in self.tournament.rounds[nb-1].matchs:
-            
+            sort_n_tournament.remove(player2)
+        self.__show_match_and_datetime_end((nb-1),compte,round_controller)    
+        # for match in self.tournament.rounds[nb-1].matchs:
+        #     compte+=1
+        #     view.print_name_match_players(compte,match)
+        #     match.score_player_one, match.score_player_two = self.__get_handle_score()
+        #     match.update_score()
+        #     view.print_match_result(match)
+        
+        # round_controller.round.datetime_end()
+        # end=round_controller.round.date_time_end
+        # view.print_date_end_round(end)
+    
+    def __show_match_and_datetime_end(self,indice,compte,round_controller):
+
+        for match in self.tournament.rounds[indice].matchs:
             compte+=1
             view.print_name_match_players(compte,match)
             match.score_player_one, match.score_player_two = self.__get_handle_score()
@@ -170,6 +183,7 @@ class TournamentController:
         round_controller.round.datetime_end()
         end=round_controller.round.date_time_end
         view.print_date_end_round(end)
+
         
 
     
@@ -188,7 +202,6 @@ class TournamentController:
             cpteur=2
             for i in range(len(self.json["rounds"]) + 1, 5):
                 cpteur+=1
-                print(cpteur,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
                 self.__create_other_round(i,self.tournament)
                 if self.__quit_and_save_the_round():
                     return

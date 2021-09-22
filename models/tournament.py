@@ -51,21 +51,28 @@ class Tournament:
         tournament.remove(doc_ids=[id])
 
     def table_tournament_not_finished(self):
+        tournament_not_finished_id=[]
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
         all_tournament=tournament.all()
         for tournament in all_tournament:
             if len(tournament['rounds'])!=4:
                 home.print_tournaments_name(tournament.doc_id,tournament['name'])
+                tournament_not_finished_id(tournament.doc_id)
+        return tournament_not_finished_id
     
     def table_tournament(self):
+        tournament_id=[]
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
         all_tournament=tournament.all()
         for tournament in all_tournament:
             home.print_tournaments_name(tournament.doc_id,tournament['name'])
+            tournament_id.append(tournament.doc_id)
+        return tournament_id
             
     def table_round(self,id_tournament):
+        round_id_list=[]
         round_id=0
         db=TinyDB('db.json', indent=4)
         tournament=db.table('tournament')
@@ -74,7 +81,8 @@ class Tournament:
         for round in tournament["rounds"]:
             round_id+=1
             home.print_rounds_name(round["round_name"],round_id,round["date_time_start"],round["date_time_end"])
-        return tournament["rounds"]
+            round_id_list.append(round_id)
+        return tournament["rounds"],round_id_list
     
     def table_match(self,round_name,choice_id_round):
         cpt=0

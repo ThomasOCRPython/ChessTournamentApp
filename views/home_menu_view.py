@@ -5,7 +5,6 @@ def choice_tournament_reload():
     id_tournament=input("Enter id tournament : ")
     return id_tournament
 def enter_new_elo():
-
     new_elo=input("give the new elo :")
     return new_elo
 def get_message_sub_menu(message):
@@ -18,15 +17,14 @@ def update_player():
     id_player=input("choice id player:")
     return id_player
 def print_player(player_id,player_name,player_elo):
-    print("\t=============== PLAYER ID :",f"{player_id}","- NAME :",f"{player_name}"," ELO :",f"{player_elo}","===============")
+    print("\n\t=============== PLAYER ID :",f"{player_id}","- NAME :",f"{player_name}"," ELO :",f"{player_elo}","===============")
 def print_match_players(cpt,player_one,player_two) :
-    print("=======================================================================\n                       MATCH",f"{cpt}","\n=======================================================================\n             MATCH :",f"{player_one}","=======VS======",f"{player_two}")
-    
+    print("                       MATCH",f"{cpt}","\n=======================================================================\n             MATCH :",f"{player_one}","=======VS======",f"{player_two}")
 def print_tournaments_name(tournament_id,tournament_name):
-    print("=======================================================================\n                       CHOICE TOURNAMENT ID:",f"{tournament_id}","\n=======================================================================\n=========== TOURNAMENT ID :",f"{tournament_id}",'=== TOURNAMENT NAME :', f"{tournament_name}","===========\n")
+    print("                       CHOICE TOURNAMENT ID:",f"{tournament_id}","\n=======================================================================\n=========== TOURNAMENT ID :",f"{tournament_id}",'=== TOURNAMENT NAME :', f"{tournament_name}","===========\n")
 def print_rounds_name(round_name,round_id,date_time_start,date_time_end):
-    print("=======================================================================\n                       CHOICE ROUND ID :",f"{round_id}","\n=======================================================================\n            Round_name :",f"{round_name}",   "***** Round_ID :",  f"{round_id}","*****","\nRound date_time_start:",f"{date_time_start}","\nRound date_time_end:",f"{date_time_end}")
+    print("                       CHOICE ROUND ID :",f"{round_id}","\n=======================================================================\n            Round_name :",f"{round_name}",   "***** Round_ID :",  f"{round_id}","*****","\nRound date_time_start:",f"{date_time_start}","\nRound date_time_end:",f"{date_time_end}")
 def print_players_tournament(name,elo,score):
-    print("=======================================================================\n                       PLAYER:","\n=======================================================================\n             PLAYER NAME :",f"{name}","\n             PLAYER ELO :",f"{elo}","\n             PLAYER SCORE :",f"{score}")
+    print("                       PLAYER:","\n=======================================================================\n             PLAYER NAME :",f"{name}","\n             PLAYER ELO :",f"{elo}","\n             PLAYER SCORE :",f"{score}")
     
 
