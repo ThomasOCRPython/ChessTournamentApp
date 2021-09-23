@@ -1,5 +1,4 @@
 import sys
-
 from models.tournament import Tournament as tour
 from models.player import Player as player
 from controllers.tournament_controller import TournamentController as tournament
@@ -31,6 +30,8 @@ class HomeMenuController:
 
     def __choice_tournament_and_reload(self):
         nb_tournament_id = tour.table_tournament_not_finished(self)
+        if nb_tournament_id == []:
+            return
         id_tournament = int(self.__get_id_tournament())
         while id_tournament not in nb_tournament_id:
             id_tournament = int(self.__get_id_tournament())

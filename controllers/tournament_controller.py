@@ -36,7 +36,6 @@ class TournamentController:
         self.__create_round_one(self.tournament)
         if self.__quit_and_save_the_round():
             return
-
         cpt = 2
         for nb in range(2, 2 + (int(self.tournament.nb_of_rounds) - 1)):
             cpt += 1
@@ -119,13 +118,12 @@ class TournamentController:
         round_controller.create_round(1, self.tournament)
         for i in range(int(len(sort_player) / 2)):
             matchController = MatchController()
-            matchs = matchController.create_match(
-                sort_player[i], sort_player[i + int(len(sort_player) / 2)]
-            )
+            matchs = matchController.create_match(sort_player[i], sort_player[i + int(len(sort_player) / 2)])
             sort_player[i].add_oponent(sort_player[i + int(len(sort_player) / 2)].name)
             sort_player[i + int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
             round_controller.round.add_match(matchs)
         self.__show_match_and_datetime_end(0, compte, round_controller)
+
 
     def __create_other_round(self, nb, tournament):
         incrm = 1
@@ -151,6 +149,7 @@ class TournamentController:
             sort_n_tournament.remove(player1)
             sort_n_tournament.remove(player2)
         self.__show_match_and_datetime_end((nb - 1), compte, round_controller)
+        
 
     def __show_match_and_datetime_end(self, indice, compte, round_controller):
 
@@ -172,7 +171,8 @@ class TournamentController:
         number_round_to_run = 4 - len(self.json["rounds"])
         if number_round_to_run == 4:
             self.__create_round_one(self.tournament)
-            for nb in range(2, 2 + (int(self.tournament.nb_of_rounds) - 1)):
+            
+            for nb in range(2, 2 + (int(self.json["nb_of_rounds"]) - 1)):
                 self.__create_other_round(nb, self.tournament)
                 if self.__quit_and_save_the_round():
                     return
@@ -180,11 +180,10 @@ class TournamentController:
             cpteur = 2
             for i in range(len(self.json["rounds"]) + 1, 5):
                 cpteur += 1
-                
                 self.__create_other_round(i, self.tournament)
                 if self.__quit_and_save_the_round():
                     return
-                if cpteur == (2 + (int(self.tournament.nb_of_rounds) - 1)):
+                if cpteur == (2 + (int(self.json["nb_of_rounds"]) - 1)):
                     self.tournament.save()
                     return
 
