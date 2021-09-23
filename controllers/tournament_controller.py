@@ -1,6 +1,5 @@
-from controllers.roundController import RoundController
-
-from controllers.matchController import MatchController
+from controllers.round_controller import RoundController
+from controllers.match_controller import MatchController
 from models.round import Round
 from models.tournament import Tournament
 from models.player import Player
