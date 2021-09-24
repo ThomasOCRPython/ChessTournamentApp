@@ -5,6 +5,7 @@ from controllers.tournament_controller import TournamentController as tournament
 from views import home_menu_view as view
 
 
+
 class HomeMenuController:
     def get_choice(self):
 
@@ -24,7 +25,7 @@ class HomeMenuController:
                 self.__show_players()
             elif self.choice == "6":
                 self.__update_players_elo()
-            elif self.choice == "7":
+            else :
                 self.__exit()
             self.choice = None
 

@@ -9,12 +9,14 @@ from controllers.player_controller import PlayerController
 import datetime
 
 
+
 class TournamentController:
     def __init__(self):
         self.tournament = None
 
     def create_new_tournament(self):
 
+        
         tournament_name = "Pegasus"  # self.__get_name("Enter tournament name: ")
         tournament_place = "kotte"  # self.__get_place("Enter tournament place: ")
         tournament_date = (
@@ -29,22 +31,22 @@ class TournamentController:
             tournament_date,
             tournament_get_time_control,
         )
+        
         self.player_controller = PlayerController()
         self.player_controller.create_player(self.tournament)
-        # test=self.tournament.table_tournament_not_finished()
 
         self.__create_round_one(self.tournament)
         if self.__quit_and_save_the_round():
             return
-        cpt = 2
+        
         for nb in range(2, 2 + (int(self.tournament.nb_of_rounds) - 1)):
-            cpt += 1
             self.__create_other_round(nb, self.tournament)
             if self.__quit_and_save_the_round():
-                return
-            if cpt == (2 + (int(self.tournament.nb_of_rounds) - 1)):
+                return 
+            
+            if len(self.tournament.rounds) == (int(self.tournament.nb_of_rounds)):
                 self.tournament.save()
-                return
+                return 
 
     @staticmethod
     def __get_name(message):
@@ -148,6 +150,7 @@ class TournamentController:
             round_controller.round.add_match(matchs)
             sort_n_tournament.remove(player1)
             sort_n_tournament.remove(player2)
+    
         self.__show_match_and_datetime_end((nb - 1), compte, round_controller)
         
 
@@ -163,6 +166,7 @@ class TournamentController:
         round_controller.round.datetime_end()
         end = round_controller.round.date_time_end
         view.print_date_end_round(end)
+        
 
     def reload_tournament(self, id_tournament):
         self.json = id_tournament
@@ -177,13 +181,11 @@ class TournamentController:
                 if self.__quit_and_save_the_round():
                     return
         else:
-            cpteur = 2
             for i in range(len(self.json["rounds"]) + 1, 5):
-                cpteur += 1
                 self.__create_other_round(i, self.tournament)
                 if self.__quit_and_save_the_round():
                     return
-                if cpteur == (2 + (int(self.json["nb_of_rounds"]) - 1)):
+                if len(self.tournament.rounds) == (int(self.tournament.nb_of_rounds)):
                     self.tournament.save()
                     return
 
@@ -203,6 +205,8 @@ class TournamentController:
                 player["sex"],
                 player["elo"],
                 player["score"],
+                # player["oponents"],
+                
             )
             self.tournament.add_player(reload_player)
 
@@ -220,6 +224,7 @@ class TournamentController:
                     match["player_one"]["sex"],
                     match["player_one"]["elo"],
                     match["player_one"]["score"],
+                    
                 )
                 player2 = Player(
                     match["player_two"]["last_name"],
@@ -228,6 +233,7 @@ class TournamentController:
                     match["player_two"]["sex"],
                     match["player_two"]["elo"],
                     match["player_two"]["score"],
+                    
                 )
                 reload_match = Match(
                     player1,
@@ -237,3 +243,4 @@ class TournamentController:
                 )
                 reload_round.add_match(reload_match)
             self.tournament.add_round(reload_round)
+    
