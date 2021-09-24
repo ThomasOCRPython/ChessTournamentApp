@@ -1,5 +1,4 @@
 from views import home_menu_view as home
-
 from tinydb import TinyDB
 
 

@@ -23,5 +23,4 @@ class Match:
         }
         return data
 
-    def add_match_bdd(self, match_bdd):
-        pass
+    
