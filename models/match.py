@@ -12,7 +12,8 @@ class Match:
         self.player_two.score += self.score_player_two
 
     def __str__(self):
-        return f"player_one: {self.player_one} \n player_two :{self.player_two} \n score_player_one ={self.score_player_one}\n score_player_two ={self.score_player_two}"
+        return f"player_one: {self.player_one} \n player_two :{self.player_two} \n score_player_one ={self.score_player_one}\
+            \n score_player_two ={self.score_player_two}"
 
     def match_serializer(self):
         data = {
@@ -22,5 +23,3 @@ class Match:
             "score_player_two": self.score_player_two,
         }
         return data
-
-    

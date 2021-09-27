@@ -15,7 +15,8 @@ class Round:
         self.date_time_end = datetime.datetime.now()
 
     def __str__(self):
-        return f" round_name : {self.round_name} \n date_time_start : {self.date_time_start} \n date_time_end : {self.date_time_end} \n matchs : {self.matchs}"
+        return f" round_name : {self.round_name} \n date_time_start : {self.date_time_start} \
+            \n date_time_end : {self.date_time_end} \n matchs : {self.matchs}"
 
     def serializer(self):
         data = {

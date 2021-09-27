@@ -6,8 +6,7 @@ from models.player import Player
 from models.match import Match
 from views import tournament_view as view
 from controllers.player_controller import PlayerController
-import datetime
-
+from datetime import datetime
 
 
 class TournamentController:
@@ -16,54 +15,55 @@ class TournamentController:
 
     def create_new_tournament(self):
 
-        
-        tournament_name = "Pegasus"  # self.__get_name("Enter tournament name: ")
-        tournament_place = "kotte"  # self.__get_place("Enter tournament place: ")
-        tournament_date = (
-            "30-07-2021"  # self.__get_date("Enter the date of the tournament : ")
+        tournament_name = self._get_name("Enter tournament name: ")
+        tournament_place = self._get_place("Enter tournament place: ")
+        tournament_date = (self._get_date("Enter the date of the tournament : "))
+        tournament_get_time_control = self._get_time_control(
+            "Enter '1' for 'bullet',\
+             '2' for 'blits', '3' for 'coup rapide' :"
         )
-        tournament_get_time_control = "1"  # self.__get_time_control("Enter '1' for 'bullet', '2' for 'blits', '3' for 'coup rapide' :")
-        # tournament_description=self.__get_description("Enter description")
+        tournament_description = self._get_description("Enter description")
 
         self.tournament = Tournament(
             tournament_name,
             tournament_place,
             tournament_date,
             tournament_get_time_control,
+            tournament_description,
         )
-        
+
         self.player_controller = PlayerController()
         self.player_controller.create_player(self.tournament)
 
-        self.__create_round_one(self.tournament)
-        if self.__quit_and_save_the_round():
+        self._create_round_one(self.tournament)
+        if self._quit_and_save_the_round():
             return
-        
+
         for nb in range(2, 2 + (int(self.tournament.nb_of_rounds) - 1)):
-            self.__create_other_round(nb, self.tournament)
-            if self.__quit_and_save_the_round():
-                return 
-            
+            self._create_other_round(nb, self.tournament)
+            if self._quit_and_save_the_round():
+                return
+
             if len(self.tournament.rounds) == (int(self.tournament.nb_of_rounds)):
                 self.tournament.save()
-                return 
+                return
 
     @staticmethod
-    def __get_name(message):
+    def _get_name(message):
         name = view.get_input(message)
         while not name.isalpha():
             name = view.get_input(f"Error: {message}")
         return name
 
     @staticmethod
-    def __get_place(message):
+    def _get_place(message):
         place = view.get_input(message)
         while not place.isalpha():
             place = view.get_input(f"Error: {message}")
         return place
 
     @staticmethod
-    def __get_date(message):
+    def _get_date(message):
         get_date = view.get_input(message)
         while True:
             try:
@@ -74,7 +74,7 @@ class TournamentController:
         return get_date
 
     @staticmethod
-    def __get_time_control(message):
+    def _get_time_control(message):
         time_control = view.get_input(message)
         while time_control not in ("1", "2", "3"):
             time_control = view.get_input(f"Error: {message}")
@@ -87,11 +87,11 @@ class TournamentController:
         return time_control
 
     @staticmethod
-    def __get_description(message):
+    def _get_description(message):
         description = view.get_input(message)
         return description
 
-    def __get_handle_score(self):
+    def _get_handle_score(self):
         self.score = view.enter_score()
         while self.score not in ("1", "2", "0"):
             self.score = view.get_input("Error: Enter score (1 / 2 / 0): ")
@@ -102,7 +102,7 @@ class TournamentController:
         else:
             return 0.5, 0.5
 
-    def __quit_and_save_the_round(self):
+    def _quit_and_save_the_round(self):
         self.quit = view.quit_and_save().lower()
         while self.quit not in ("yes", "no"):
             self.quit = view.get_input("Error: Enter yes or no : ")
@@ -112,7 +112,7 @@ class TournamentController:
         elif self.quit == "no":
             return False
 
-    def __create_round_one(self, tournament):
+    def _create_round_one(self, tournament):
         compte = 0
         tournament.players.sort(key=lambda x: x.elo)
         sort_player = tournament.players
@@ -120,14 +120,15 @@ class TournamentController:
         round_controller.create_round(1, self.tournament)
         for i in range(int(len(sort_player) / 2)):
             matchController = MatchController()
-            matchs = matchController.create_match(sort_player[i], sort_player[i + int(len(sort_player) / 2)])
+            matchs = matchController.create_match(
+                sort_player[i], sort_player[i + int(len(sort_player) / 2)]
+            )
             sort_player[i].add_oponent(sort_player[i + int(len(sort_player) / 2)].name)
             sort_player[i + int(len(sort_player) / 2)].add_oponent(sort_player[i].name)
             round_controller.round.add_match(matchs)
-        self.__show_match_and_datetime_end(0, compte, round_controller)
+        self._show_match_and_datetime_end(0, compte, round_controller)
 
-
-    def __create_other_round(self, nb, tournament):
+    def _create_other_round(self, nb, tournament):
         incrm = 1
         compte = 0
         tournament.players.sort(key=lambda x: (-x.score, x.elo))
@@ -150,23 +151,21 @@ class TournamentController:
             round_controller.round.add_match(matchs)
             sort_n_tournament.remove(player1)
             sort_n_tournament.remove(player2)
-    
-        self.__show_match_and_datetime_end((nb - 1), compte, round_controller)
-        
 
-    def __show_match_and_datetime_end(self, indice, compte, round_controller):
+        self._show_match_and_datetime_end((nb - 1), compte, round_controller)
+
+    def _show_match_and_datetime_end(self, indice, compte, round_controller):
 
         for match in self.tournament.rounds[indice].matchs:
             compte += 1
             view.print_name_match_players(compte, match)
-            match.score_player_one, match.score_player_two = self.__get_handle_score()
+            match.score_player_one, match.score_player_two = self._get_handle_score()
             match.update_score()
             view.print_match_result(match)
 
         round_controller.round.datetime_end()
         end = round_controller.round.date_time_end
         view.print_date_end_round(end)
-        
 
     def reload_tournament(self, id_tournament):
         self.json = id_tournament
@@ -174,16 +173,16 @@ class TournamentController:
         self.deserilizer()
         number_round_to_run = 4 - len(self.json["rounds"])
         if number_round_to_run == 4:
-            self.__create_round_one(self.tournament)
-            
+            self._create_round_one(self.tournament)
+
             for nb in range(2, 2 + (int(self.json["nb_of_rounds"]) - 1)):
-                self.__create_other_round(nb, self.tournament)
-                if self.__quit_and_save_the_round():
+                self._create_other_round(nb, self.tournament)
+                if self._quit_and_save_the_round():
                     return
         else:
             for i in range(len(self.json["rounds"]) + 1, 5):
-                self.__create_other_round(i, self.tournament)
-                if self.__quit_and_save_the_round():
+                self._create_other_round(i, self.tournament)
+                if self._quit_and_save_the_round():
                     return
                 if len(self.tournament.rounds) == (int(self.tournament.nb_of_rounds)):
                     self.tournament.save()
@@ -205,16 +204,15 @@ class TournamentController:
                 player["sex"],
                 player["elo"],
                 player["score"],
-                # player["oponents"],
-                
             )
+            reload_player.set_oponents(player["oponents"])
             self.tournament.add_player(reload_player)
 
         for round in self.json["rounds"]:
             reload_round = Round(
                 round["round_name"],
-                datetime.datetime.strptime(round["date_time_start"], "%A, %d %B,%Y"),
-                datetime.datetime.strptime(round["date_time_end"], "%A, %d %B,%Y"),
+                datetime.strptime(round["date_time_start"], "%A, %d %B,%Y"),
+                datetime.strptime(round["date_time_end"], "%A, %d %B,%Y"),
             )
             for match in round["matchs"]:
                 player1 = Player(
@@ -224,7 +222,6 @@ class TournamentController:
                     match["player_one"]["sex"],
                     match["player_one"]["elo"],
                     match["player_one"]["score"],
-                    
                 )
                 player2 = Player(
                     match["player_two"]["last_name"],
@@ -233,7 +230,6 @@ class TournamentController:
                     match["player_two"]["sex"],
                     match["player_two"]["elo"],
                     match["player_two"]["score"],
-                    
                 )
                 reload_match = Match(
                     player1,
@@ -243,4 +239,3 @@ class TournamentController:
                 )
                 reload_round.add_match(reload_match)
             self.tournament.add_round(reload_round)
-    

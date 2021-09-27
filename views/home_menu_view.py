@@ -1,6 +1,11 @@
 def enter_choice():
     choice = input(
-        "=======================================\n=                MENU                 =\n=======================================\n      Enter 1- Create new tournament\n      Enter 2- Reload tournament\n      Enter 3- view all tournaments\n      Enter 4- view all tournaments/rounds/matchs\n      Enter 5- view all players\n      Enter 6- change elo player\n      Enter 7- Quit\n=======================================\n      Enter your choice : "
+        "=======================================\n=                MENU                 =\
+            \n=======================================\n      \
+            Enter 1- Create new tournament\n      Enter 2- Reload tournament\
+                \n      Enter 3- view all tournaments\n      Enter 4- view all tournaments/rounds/matchs\
+                \n      Enter 5- view all players\n      Enter 6- change elo player\n      Enter 7- Quit\
+                \n=======================================\n      Enter your choice : "
     )
     return choice
 
@@ -22,7 +27,11 @@ def get_message_sub_menu(message):
 
 def enter_select_sub_menu():
     select = input(
-        "=======================================================================\n                       CHOICE SUB MENU \n=======================================================================\n                1-display all players in a tournament\n                2-view all tournaments\n                3-back to menu\n\n                Enter your choice : "
+        "=======================================================================\n                       \
+            CHOICE SUB MENU \
+                \n=======================================================================\n                \
+            1-display all players in a tournament\n                \
+                2-view all tournaments\n                3-back to menu\n\n                Enter your choice : "
     )
     return select
 
