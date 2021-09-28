@@ -82,7 +82,7 @@ class PlayerController:
                 "Enter player date of bird : "
             )
             player_sex = self._get_sex(
-                "Enter sex player 'M' for male, 'F'for female 'N'for none: "
+                "Enter sex player 'm' for male, 'f'for female 'n'for none: "
             )
             player_elo = self._get_elo("Enter player Elo : ")
 
@@ -134,7 +134,7 @@ class PlayerController:
 
     @staticmethod
     def _get_sex(message):
-        sex = view.get_input(message)
-        while sex not in ("M", "F", "N"):
+        sex = view.get_input(message).lower()
+        while sex not in ("m", "f", "n"):
             sex = view.get_input(f"Error: {message}")
         return sex

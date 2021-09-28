@@ -22,7 +22,7 @@ class TournamentController:
             "Enter '1' for 'bullet',\
              '2' for 'blits', '3' for 'coup rapide' :"
         )
-        tournament_description = self._get_description("Enter description")
+        tournament_description = self._get_description("Enter description (if not press enter) :")
 
         self.tournament = Tournament(
             tournament_name,

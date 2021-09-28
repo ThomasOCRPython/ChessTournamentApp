@@ -53,6 +53,8 @@ class HomeMenuController:
 
     def _show_players(self):
         all_players = player.table_players(self)
+        if all_players == []:
+            return
         order_players = []
         for player_not_order in all_players:
             order_players.append(
@@ -89,6 +91,8 @@ class HomeMenuController:
     def _update_players_elo(self):
         nb_id_player = []
         all_players = player.table_players(self)
+        if all_players == []:
+            return
         for player_not_order in all_players:
             view.print_player(
                 player_not_order.doc_id,
@@ -112,6 +116,8 @@ class HomeMenuController:
 
     def _order_players_tournament(self):
         nb_tournament_id = tour.table_tournament(self)
+        if nb_tournament_id == []:
+            return
         choice_id_tournament = int(
             view.get_message_sub_menu(
                 "choose the id of a tournament to see its players :"
@@ -169,6 +175,8 @@ class HomeMenuController:
 
     def _select_round_and_match(self):
         nb_tournament_id = tour.table_tournament(self)
+        if nb_tournament_id == []:
+            return
         choice_id_tournament = int(
             view.get_message_sub_menu(
                 "choose the id of a tournament to see its rounds :"
