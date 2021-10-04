@@ -1,4 +1,5 @@
 import sys
+import os
 from models.tournament import Tournament as tour
 from models.player import Player as player
 from controllers.tournament_controller import TournamentController as tournament
@@ -7,9 +8,9 @@ from views import home_menu_view as view
 
 class HomeMenuController:
     def get_choice(self):
-
         self.choice = None
         while self.choice not in ("1", "2", "3", "4", "5", "6", "7"):
+            os.system('clear')
             self.choice = view.enter_choice()
             if self.choice == "1":
                 tournament_controller = tournament()
