@@ -3,7 +3,7 @@
 
 ## <span style="color:#007ee6"> Pour commencer </span>
 
-<span style="color:#696969">Application qui permet de gérer des tournois d'échec selon le système Suisse. L'application permettra entre autre d'enregistrer des tournois, des joueurs, des matchs; de récuper les points des joueurs, de réctifier leurs élo, d'établir un historique des matchs joués.</span>
+<span style="color:#696969">Application qui permet de gérer des tournois d'échec selon le système Suisse. L'application permettra entre autre d'enregistrer des tournois, des joueurs, des matchs; de récuper les points des joueurs, de réctifier leur élo, d'établir un historique des matchs joués.</span>
 
 ## <span style="color:#007ee6"> Pré-requis </span>
 
